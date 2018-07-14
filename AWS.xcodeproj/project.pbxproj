@@ -60,11 +60,9 @@
 		A4A7EA9120F9B7E900B1B0B4 /* AWS */ = {
 			isa = PBXGroup;
 			children = (
-				A4A7EA9220F9B7E900B1B0B4 /* AppDelegate.h */,
-				A4A7EA9320F9B7E900B1B0B4 /* AppDelegate.m */,
-				A4A7EA9520F9B7E900B1B0B4 /* ViewController.h */,
-				A4A7EA9620F9B7E900B1B0B4 /* ViewController.m */,
-				A4A7EA9820F9B7E900B1B0B4 /* Main.storyboard */,
+				A4B773E220F9B90C00E6A20E /* Storyboards */,
+				A4B773E120F9B8F800E6A20E /* ViewControllers */,
+				A4B773E020F9B8C900E6A20E /* AppDelegate */,
 				A4A7EA9E20F9B7EB00B1B0B4 /* Assets.xcassets */,
 				A4A7EAA020F9B7EB00B1B0B4 /* LaunchScreen.storyboard */,
 				A4A7EAA320F9B7EB00B1B0B4 /* Info.plist */,
@@ -72,6 +70,32 @@
 				A4A7EA9B20F9B7E900B1B0B4 /* AWS.xcdatamodeld */,
 			);
 			path = AWS;
+			sourceTree = "<group>";
+		};
+		A4B773E020F9B8C900E6A20E /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				A4A7EA9320F9B7E900B1B0B4 /* AppDelegate.m */,
+				A4A7EA9220F9B7E900B1B0B4 /* AppDelegate.h */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		A4B773E120F9B8F800E6A20E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A4A7EA9620F9B7E900B1B0B4 /* ViewController.m */,
+				A4A7EA9520F9B7E900B1B0B4 /* ViewController.h */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A4B773E220F9B90C00E6A20E /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				A4A7EA9820F9B7E900B1B0B4 /* Main.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
