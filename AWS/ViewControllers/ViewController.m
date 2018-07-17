@@ -25,5 +25,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)pickImage:(id)sender {
+    UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
+    // pickerController.delegate = self;
+    
+    [self presentViewController:pickerController animated:YES completion:nil];
+}
+
+- (void) imagePickerController:(UIImagePickerController *)picker
+         didFinishPickingImage:(UIImage *)image
+                   editingInfo:(NSDictionary *)editingInfo
+{
+    // self.imageView.image = image;
+    // [self dismissModalViewControllerAnimated:YES];
+}
+
 
 @end

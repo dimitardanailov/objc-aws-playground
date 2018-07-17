@@ -6,5 +6,6 @@ target 'AWS' do
   # use_frameworks!
 
   # Pods for AWS
+  pod 'AWSS3'
 
 end
