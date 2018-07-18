@@ -18,7 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.saveImageButton.enabled = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,10 +56,25 @@
     self.imageView.image = chosenImage;
     
     [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    self.saveImageButton.enabled = YES;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+    self.saveImageButton.enabled = NO;
+}
+
+#pragma mark - Save image to AWS
+
+- (IBAction)saveImageToAWS:(id)sender {
+    [self saveButtonWaitingState];
+}
+
+- (void)saveButtonWaitingState {
+    self.saveImageButton.enabled = NO;
+    [self.saveImageButton setTitle:@"Waiting ..." forState:UIControlStateNormal];
 }
 
 @end

@@ -35,7 +35,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save image"/>
                                 <connections>
-                                    <action selector="showCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JgK-gw-91V"/>
+                                    <action selector="saveImageToAWS:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6cL-fV-62B"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARd-eo-UWz">
