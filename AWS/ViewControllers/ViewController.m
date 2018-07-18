@@ -6,13 +6,19 @@
 //  Copyright © 2018 Dimitar Danailov. All rights reserved.
 //
 
+#import <AWSMobileClient.h>
+
 #import "ViewController.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *saveImageButton;
 
+@property (weak, nonatomic) IBOutlet UITextView *awsIdentity;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @end
+
+
 
 @implementation ViewController
 
@@ -20,6 +26,16 @@
     [super viewDidLoad];
     
     self.saveImageButton.enabled = NO;
+    [self loadInfoAboutAWSIdentity];
+}
+
+- (void)loadInfoAboutAWSIdentity {
+    // Get the AWSCredentialsProvider from the AWSMobileClient
+    AWSCognitoCredentialsProvider* credentialsProvider = [[AWSMobileClient sharedInstance] getCredentialsProvider];
+    
+    // Get the identity Id from the AWSIdentityManager
+    NSString* identityId = [AWSIdentityManager defaultIdentityManager].identityId;
+    [self.awsIdentity setText:identityId];
 }
 
 - (void)didReceiveMemoryWarning {

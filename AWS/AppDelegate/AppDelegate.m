@@ -6,7 +6,10 @@
 //  Copyright © 2018 Dimitar Danailov. All rights reserved.
 //
 
+#import <AWSMobileClient.h>
+
 #import "AppDelegate.h"
+
 
 @interface AppDelegate ()
 
@@ -16,8 +19,14 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    return YES;
+    
+    // https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html#add-aws-mobile-sdk-connect-to-your-backend
+    // Create AWSMobileClient to connect with AWS
+    BOOL AWSConfigurationsAreCorrect =
+        [[AWSMobileClient sharedInstance]interceptApplication:application didFinishLaunchingWithOptions:launchOptions];
+    NSLog(@"AWSConfigurationsAreCorrect value: %d",AWSConfigurationsAreCorrect);
+    
+    return AWSConfigurationsAreCorrect;
 }
 
 
