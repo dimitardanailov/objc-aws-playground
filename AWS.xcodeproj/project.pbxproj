@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A40C41E420FE1AB000A34EF2 /* AWSS3Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = A40C41E320FE1AB000A34EF2 /* AWSS3Helper.m */; };
+		A44E6BB120FF4C2E000DC608 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = A44E6BB020FF4C2E000DC608 /* awsconfiguration.json */; };
 		A4A7EA9420F9B7E900B1B0B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A7EA9320F9B7E900B1B0B4 /* AppDelegate.m */; };
 		A4A7EA9720F9B7E900B1B0B4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A7EA9620F9B7E900B1B0B4 /* ViewController.m */; };
 		A4A7EA9A20F9B7E900B1B0B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4A7EA9820F9B7E900B1B0B4 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		A40C41E220FE19D700A34EF2 /* AWSS3Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSS3Helper.h; sourceTree = "<group>"; };
 		A40C41E320FE1AB000A34EF2 /* AWSS3Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWSS3Helper.m; sourceTree = "<group>"; };
+		A44E6BB020FF4C2E000DC608 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		A4A7EA8F20F9B7E900B1B0B4 /* AWS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4A7EA9220F9B7E900B1B0B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A4A7EA9320F9B7E900B1B0B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				A4A7EA9E20F9B7EB00B1B0B4 /* Assets.xcassets */,
 				A4A7EAA020F9B7EB00B1B0B4 /* LaunchScreen.storyboard */,
 				A4A7EAA320F9B7EB00B1B0B4 /* Info.plist */,
+				A44E6BB020FF4C2E000DC608 /* awsconfiguration.json */,
 				A4A7EAA420F9B7EB00B1B0B4 /* main.m */,
 				A4A7EA9B20F9B7E900B1B0B4 /* AWS.xcdatamodeld */,
 			);
@@ -193,6 +196,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A44E6BB120FF4C2E000DC608 /* awsconfiguration.json in Resources */,
 				A4A7EAA220F9B7EB00B1B0B4 /* LaunchScreen.storyboard in Resources */,
 				A4A7EA9F20F9B7EB00B1B0B4 /* Assets.xcassets in Resources */,
 				A4A7EA9A20F9B7E900B1B0B4 /* Main.storyboard in Resources */,
