@@ -9,6 +9,7 @@
 #import <AWSMobileClient.h>
 
 #import "ViewController.h"
+#import "AWSS3Helper.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *saveImageButton;
@@ -16,9 +17,10 @@
 @property (weak, nonatomic) IBOutlet UITextView *awsIdentity;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+@property (strong, nonatomic) NSDictionary *pickerDictonary;
+
 @end
-
-
 
 @implementation ViewController
 
@@ -26,6 +28,7 @@
     [super viewDidLoad];
     
     self.saveImageButton.enabled = NO;
+    
     [self loadInfoAboutAWSIdentity];
 }
 
@@ -70,10 +73,11 @@
 - (void)imagePickerController:(UIImagePickerController *)picker  didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.imageView.image = chosenImage;
+    self.pickerDictonary = info;
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     
-    self.saveImageButton.enabled = YES;
+    [self saveButtonNormalState];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -86,11 +90,36 @@
 
 - (IBAction)saveImageToAWS:(id)sender {
     [self saveButtonWaitingState];
+    [self uploadImageToAWS];
 }
+
+- (void)uploadImageToAWS {
+    NSURL *imagePath = [self.pickerDictonary objectForKey:@"UIImagePickerControllerReferenceURL"];
+    NSString *imageName = [imagePath lastPathComponent];
+    NSLog(@"image name %@",imagePath);
+    
+    // NSLog(@"Filename %@", [self.pickerDictonary objectForKey:@"UIImagePickerControllerImageURL"]);
+    
+    AWSS3Helper *aws = [[AWSS3Helper alloc] init];
+    aws.bucket = @"awsplaygroundobjc-deployments-mobilehub-818149808";
+    aws.key = imageName;
+    
+    NSURL *filePath = [self.pickerDictonary objectForKey:@"UIImagePickerControllerImageURL"];
+    NSLog(@"filepath %@", filePath);
+    
+    [aws uploadAWSFile:filePath];
+}
+
+#pragma mark - States of save buttons
 
 - (void)saveButtonWaitingState {
     self.saveImageButton.enabled = NO;
-    [self.saveImageButton setTitle:@"Waiting ..." forState:UIControlStateNormal];
+    [self.saveImageButton setTitle:@"Waiting ..." forState:UIControlStateDisabled];
+}
+
+- (void)saveButtonNormalState {
+    self.saveImageButton.enabled = YES;
+    [self.saveImageButton setTitle:@"Save image" forState:UIControlStateNormal];
 }
 
 @end

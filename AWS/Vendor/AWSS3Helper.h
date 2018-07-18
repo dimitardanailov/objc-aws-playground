@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import <AWSCore/AWSCore.h>
+#import <AWSCognito/AWSCognito.h>
+#import <AWSS3/AWSS3.h>
 
 @interface AWSS3Helper : NSObject
 
-- (NSString *)bucket;
-- (NSString *)key;
-- (NSURL *) fileUrl;
+@property (strong, nonatomic) NSString *bucket;
+@property (strong, nonatomic) NSString *key;
 
+- (void)uploadAWSFile:(NSURL *)filePath;
 
 @end
