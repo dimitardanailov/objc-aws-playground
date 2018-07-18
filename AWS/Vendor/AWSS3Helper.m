@@ -19,6 +19,17 @@
 
 @end
 
+/**
+ * iOS: Amazon S3 TransferManager for iOS
+ * https://docs.aws.amazon.com/aws-mobile/latest/developerguide/how-to-ios-s3-transfermanager.html
+ *
+ * How to Integrate Your Existing Bucket
+ * https://docs.aws.amazon.com/aws-mobile/latest/developerguide/how-to-integrate-an-existing-bucket.html
+ *
+ * AWS mobile
+ * https://docs.aws.amazon.com/aws-mobile/latest/developerguide/getting-started.html
+ *
+ */
 @implementation AWSS3Helper
 
 - (instancetype)init
@@ -72,9 +83,6 @@
     [AWSServiceManager defaultServiceManager].defaultServiceConfiguration = configuration;
 }
 
-/**
- * https://docs.aws.amazon.com/aws-mobile/latest/developerguide/how-to-ios-s3-transfermanager.html
- */
 - (AWSS3TransferManagerUploadRequest *)createAWSS3UploadRequest:(NSURL *)filePath {
     AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
     
