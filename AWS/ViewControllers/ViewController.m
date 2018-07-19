@@ -35,6 +35,7 @@
 - (void)loadInfoAboutAWSIdentity {
     // Get the AWSCredentialsProvider from the AWSMobileClient
     AWSCognitoCredentialsProvider* credentialsProvider = [[AWSMobileClient sharedInstance] getCredentialsProvider];
+    NSLog(@"amazon credentials: %@", credentialsProvider);
     
     // Get the identity Id from the AWSIdentityManager
     NSString* identityId = [AWSIdentityManager defaultIdentityManager].identityId;
@@ -67,13 +68,19 @@
 }
 
 - (void)displayErrorDialogCameraDoesntExist {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                          message:@"Device has no camera."
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles: nil];
+    UIAlertController * alert = [UIAlertController
+                                alertControllerWithTitle:@"Camera is missing !!!"
+                                message:@"Emulator doesn't have a camera"
+                                preferredStyle:UIAlertControllerStyleAlert];
     
-    [alertView show];
+    UIAlertAction* yesButton = [UIAlertAction
+                                actionWithTitle:@"Please use a real device"
+                                style:UIAlertActionStyleDefault
+                                handler:nil];
+    
+    [alert addAction:yesButton];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Pick up image
