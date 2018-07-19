@@ -47,13 +47,33 @@
 }
 
 #pragma mark - Show Camera
-
 - (IBAction)showCamera:(id)sender {
     NSLog(@"Show camera ...");
-    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
-    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    picker.allowsEditing = YES;
-    [self presentViewController:picker animated:YES completion:nil];
+    
+     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+         [self openCamera];
+     } else {
+         [self displayErrorDialogCameraDoesntExist];
+     }
+}
+
+- (void)openCamera {
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
+    imagePicker.delegate = self;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.allowsEditing = YES;
+    
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+- (void)displayErrorDialogCameraDoesntExist {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                          message:@"Device has no camera."
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles: nil];
+    
+    [alertView show];
 }
 
 #pragma mark - Pick up image
