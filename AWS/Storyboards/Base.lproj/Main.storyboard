@@ -57,6 +57,9 @@
                                 <rect key="frame" x="144" y="624" width="114" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Download Image"/>
+                                <connections>
+                                    <action selector="downloadImageToAWS:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uCp-TS-Abu"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -65,6 +68,7 @@
                     <connections>
                         <outlet property="ImageView" destination="yQH-NB-Sh8" id="3yM-v8-SGL"/>
                         <outlet property="awsIdentity" destination="1O6-6B-osM" id="Iza-QD-y5b"/>
+                        <outlet property="downalodImageButton" destination="xrP-Dp-fBy" id="6Bs-1s-JRQ"/>
                         <outlet property="saveImageButton" destination="dw7-yA-Yem" id="P5p-F3-MGk"/>
                     </connections>
                 </viewController>

@@ -14,6 +14,8 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *saveImageButton;
 
+@property (weak, nonatomic) IBOutlet UIButton *downalodImageButton;
+
 @property (weak, nonatomic) IBOutlet UITextView *awsIdentity;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -28,6 +30,7 @@
     [super viewDidLoad];
     
     self.saveImageButton.enabled = NO;
+    // self.downalodImageButton.enabled = NO;
     
     [self loadInfoAboutAWSIdentity];
 }
@@ -135,6 +138,14 @@
     NSLog(@"filepath %@", filePath);
     
     [aws uploadAWSFile:filePath];
+}
+
+# pragma mark - Download image to AWS
+
+- (IBAction)downloadImageToAWS:(id)sender {
+    AWSS3Helper *aws = [[AWSS3Helper alloc] init];
+    
+    [aws downloadAWSFile: nil];
 }
 
 #pragma mark - States of save buttons

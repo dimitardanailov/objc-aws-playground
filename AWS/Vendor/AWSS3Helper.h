@@ -18,5 +18,6 @@
 @property (strong, nonatomic) NSString *key;
 
 - (void)uploadAWSFile:(NSURL *)filePath;
+- (void)downloadAWSFile:(NSString *)bucket;
 
 @end

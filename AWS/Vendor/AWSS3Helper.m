@@ -39,6 +39,8 @@
     return self;
 }
 
+# pragma mark - AWS Upload
+
 - (void)uploadAWSFile:(NSURL *)filePath {
     AWSS3TransferManagerUploadRequest *uploadRequest = [self createAWSS3UploadRequest:filePath];
     AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
@@ -69,6 +71,36 @@
            }
            return nil;
        }];
+}
+
+# pragma mark - AWS Download
+
+- (void)downloadAWSFile:(NSString *)bucket {
+    AWSS3GetPreSignedURLRequest *getPreSignedURLRequest = [AWSS3GetPreSignedURLRequest new];
+    getPreSignedURLRequest.bucket = @"awsplaygroundobjc-deployments-mobilehub-818149808";
+    getPreSignedURLRequest.key = @"asset.JPG";
+    getPreSignedURLRequest.HTTPMethod = AWSHTTPMethodGET;
+    getPreSignedURLRequest.expires = [NSDate dateWithTimeIntervalSinceNow:3600];
+    
+    [[[AWSS3PreSignedURLBuilder defaultS3PreSignedURLBuilder] getPreSignedURL:getPreSignedURLRequest]
+     continueWithBlock:^id(AWSTask *task) {
+         
+         if (task.error) {
+             NSLog(@"Error: %@",task.error);
+         } else {
+             
+             NSURL *presignedURL = task.result;
+             NSLog(@"download presignedURL is: \n%@", presignedURL);
+             
+             NSURLRequest *request = [NSURLRequest requestWithURL:presignedURL];
+             // self.downloadTask = [self.session downloadTaskWithRequest:request];
+             //downloadTask is an instance of NSURLSessionDownloadTask.
+             //session is an instance of NSURLSession.
+             // [self.downloadTask resume];
+             
+         }
+         return nil;
+     }];
 }
 
 #pragma mark - Private
