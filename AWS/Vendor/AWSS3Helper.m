@@ -41,12 +41,14 @@
 
 # pragma mark - AWS Upload
 
+/**
+ * Source: https://github.com/awslabs/aws-sdk-ios-samples/blob/master/S3TransferManager-Sample/Objective-C/S3TransferManagerSample/UploadViewController.m
+ */
 - (void)uploadAWSFile:(NSURL *)filePath {
     AWSS3TransferManagerUploadRequest *uploadRequest = [self createAWSS3UploadRequest:filePath];
     AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
     
-    [[transferManager upload:uploadRequest] continueWithExecutor:[AWSExecutor mainThreadExecutor]
-       withBlock:^id(AWSTask *task) {
+    [[transferManager upload:uploadRequest] continueWithBlock:^id(AWSTask *task) {
            if (task.error) {
                if ([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain]) {
                    switch (task.error.code) {
