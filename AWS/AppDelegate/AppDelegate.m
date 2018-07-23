@@ -7,6 +7,7 @@
 //
 
 #import <AWSMobileClient.h>
+#import <AWSS3/AWSS3.h>
 
 #import "AppDelegate.h"
 
@@ -89,6 +90,20 @@
     }
     
     return _persistentContainer;
+}
+
+/**
+ * Store: https://github.com/awslabs/aws-sdk-ios-samples/blob/master/S3TransferUtility-Sample/Objective-C/S3BackgroundTransferSampleObjC/AppDelegate.m
+ */
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {
+    NSLog(@"identifier: %@", identifier);
+    
+    /*
+     Store the completion handler.
+     */
+    [AWSS3TransferUtility interceptApplication:application
+           handleEventsForBackgroundURLSession:identifier
+                             completionHandler:completionHandler];
 }
 
 #pragma mark - Core Data Saving support

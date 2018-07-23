@@ -44,35 +44,26 @@
 /**
  * Source: https://github.com/awslabs/aws-sdk-ios-samples/blob/master/S3TransferManager-Sample/Objective-C/S3TransferManagerSample/UploadViewController.m
  */
-- (void)uploadAWSFile:(NSURL *)filePath {
-    AWSS3TransferManagerUploadRequest *uploadRequest = [self createAWSS3UploadRequest:filePath];
-    AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
+- (void)uploadAWSFile:(NSURL *)filePath   {
+    AWSS3TransferUtilityUploadExpression *expression = [AWSS3TransferUtilityUploadExpression new];
+    expression.progressBlock = self.progressBlock;
     
-    [[transferManager upload:uploadRequest] continueWithBlock:^id(AWSTask *task) {
-           if (task.error) {
-               if ([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain]) {
-                   switch (task.error.code) {
-                       case AWSS3TransferManagerErrorCancelled:
-                       case AWSS3TransferManagerErrorPaused:
-                           break;
-                           
-                       default:
-                           NSLog(@"Error: %@", task.error);
-                           break;
-                   }
-               } else {
-                   // Unknown error.
-                   NSLog(@"Error: %@", task.error);
-               }
-           }
-           
-           if (task.result) {
-               AWSS3TransferManagerUploadOutput *uploadOutput = task.result;
-               // The file uploaded successfully.
-               NSLog(@"The file uploaded successfully. %@", uploadOutput);
-           }
-           return nil;
-       }];
+    AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility defaultS3TransferUtility];
+    [[transferUtility uploadFile:filePath
+                          bucket:self.bucket
+                             key:self.key
+                     contentType:@"image/jpeg"
+                      expression:expression
+               completionHandler:self.completionHandler] continueWithBlock:^id(AWSTask *task) {
+        if (task.error) {
+            NSLog(@"Error: %@", task.error);
+        }
+        if (task.result) {
+            NSLog(@"task.result %@", task.result);
+        }
+        
+        return nil;
+    }];
 }
 
 # pragma mark - AWS Download

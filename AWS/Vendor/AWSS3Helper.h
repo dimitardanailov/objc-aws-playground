@@ -12,10 +12,12 @@
 #import <AWSCognito/AWSCognito.h>
 #import <AWSS3/AWSS3.h>
 
-@interface AWSS3Helper : NSObject
+@interface AWSS3Helper: NSObject
 
 @property (strong, nonatomic) NSString *bucket;
 @property (strong, nonatomic) NSString *key;
+@property (copy, nonatomic) AWSS3TransferUtilityUploadCompletionHandlerBlock completionHandler;
+@property (copy, nonatomic) AWSS3TransferUtilityProgressBlock progressBlock;
 
 - (void)uploadAWSFile:(NSURL *)filePath;
 - (void)downloadAWSFile:(NSString *)bucket;

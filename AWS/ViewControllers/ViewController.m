@@ -10,6 +10,7 @@
 
 #import "ViewController.h"
 #import "AWSS3Helper.h"
+#import <AWSS3/AWSS3.h>
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *saveImageButton;
@@ -22,6 +23,12 @@
 
 @property (strong, nonatomic) NSDictionary *pickerDictonary;
 
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+
+@property (copy, nonatomic) AWSS3TransferUtilityUploadCompletionHandlerBlock completionHandler;
+@property (copy, nonatomic) AWSS3TransferUtilityProgressBlock progressBlock;
+
 @end
 
 @implementation ViewController
@@ -33,6 +40,14 @@
     // self.downalodImageButton.enabled = NO;
     
     [self loadInfoAboutAWSIdentity];
+    
+    self.progressView.progress = 0;
+    
+    // Status Label
+    self.statusLabel.text = @"Ready";
+    [self setupStatusLabel];
+    [self setupProgressBlock];
+    [self setupAWSTransferUtility];
 }
 
 - (void)loadInfoAboutAWSIdentity {
@@ -134,6 +149,9 @@
     aws.bucket = @"awsplaygroundobjc-deployments-mobilehub-818149808";
     aws.key = imageName;
     
+    aws.progressBlock = self.progressBlock;
+    aws.completionHandler = self.completionHandler;
+    
     NSURL *filePath = [self.pickerDictonary objectForKey:@"UIImagePickerControllerImageURL"];
     NSLog(@"filepath %@", filePath);
     
@@ -158,6 +176,46 @@
 - (void)saveButtonNormalState {
     self.saveImageButton.enabled = YES;
     [self.saveImageButton setTitle:@"Save image" forState:UIControlStateNormal];
+}
+
+#pragma mark - Status label and progressBar
+- (void) setupStatusLabel {
+    __weak ViewController *weakSelf = self;
+    self.completionHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
+                weakSelf.statusLabel.text = @"Failed to Upload";
+            } else {
+                weakSelf.statusLabel.text = @"Successfully Uploaded";
+                weakSelf.progressView.progress = 1.0;
+            }
+        });
+    };
+}
+
+- (void) setupProgressBlock {
+    __weak ViewController *weakSelf = self;
+    self.progressBlock = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.progressView.progress = progress.fractionCompleted;
+        });
+    };
+}
+
+- (void) setupAWSTransferUtility {
+    __weak ViewController *weakSelf = self;
+    
+    AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility defaultS3TransferUtility];
+    [transferUtility enumerateToAssignBlocksForUploadTask:^(AWSS3TransferUtilityUploadTask * _Nonnull uploadTask, AWSS3TransferUtilityProgressBlock  _Nullable __autoreleasing * _Nullable uploadProgressBlockReference, AWSS3TransferUtilityUploadCompletionHandlerBlock  _Nullable __autoreleasing * _Nullable completionHandlerReference) {
+        NSLog(@"%lu", (unsigned long)uploadTask.taskIdentifier);
+        
+        *uploadProgressBlockReference = weakSelf.progressBlock;
+        *completionHandlerReference = weakSelf.completionHandler;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.statusLabel.text = @"Uploading...";
+        });
+    } downloadTask:nil];
 }
 
 @end

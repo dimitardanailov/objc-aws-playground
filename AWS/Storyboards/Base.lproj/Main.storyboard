@@ -27,7 +27,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yQH-NB-Sh8">
-                                <rect key="frame" x="81" y="67" width="240" height="427"/>
+                                <rect key="frame" x="81" y="136" width="240" height="358"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dw7-yA-Yem">
@@ -61,6 +61,17 @@
                                     <action selector="downloadImageToAWS:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uCp-TS-Abu"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hAs-hV-WMX">
+                                <rect key="frame" x="81" y="91" width="240" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jqb-eh-pLu">
+                                <rect key="frame" x="131" y="120" width="150" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -69,7 +80,9 @@
                         <outlet property="ImageView" destination="yQH-NB-Sh8" id="3yM-v8-SGL"/>
                         <outlet property="awsIdentity" destination="1O6-6B-osM" id="Iza-QD-y5b"/>
                         <outlet property="downalodImageButton" destination="xrP-Dp-fBy" id="6Bs-1s-JRQ"/>
+                        <outlet property="progressView" destination="Jqb-eh-pLu" id="bJH-Ta-pWm"/>
                         <outlet property="saveImageButton" destination="dw7-yA-Yem" id="P5p-F3-MGk"/>
+                        <outlet property="statusLabel" destination="hAs-hV-WMX" id="Fh4-xU-I0o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
