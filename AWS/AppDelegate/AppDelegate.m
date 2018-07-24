@@ -26,6 +26,7 @@
     BOOL AWSConfigurationsAreCorrect =
         [[AWSMobileClient sharedInstance]interceptApplication:application didFinishLaunchingWithOptions:launchOptions];
     NSLog(@"AWSConfigurationsAreCorrect value: %d",AWSConfigurationsAreCorrect);
+    [AWSDDLog addLogger:AWSDDTTYLogger.sharedInstance];
     
     return AWSConfigurationsAreCorrect;
 }

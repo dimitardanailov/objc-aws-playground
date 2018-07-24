@@ -34,7 +34,7 @@
 
 - (instancetype)init
 {
-    [self initAWSCognitoConfigs];
+    self = [super init];
     
     return self;
 }
@@ -48,6 +48,8 @@
     AWSS3TransferUtilityUploadExpression *expression = [AWSS3TransferUtilityUploadExpression new];
     expression.progressBlock = self.progressBlock;
     
+    [self initAWSCognitoConfigs];
+    
     AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility defaultS3TransferUtility];
     [[transferUtility uploadFile:filePath
                           bucket:self.bucket
@@ -56,10 +58,11 @@
                       expression:expression
                completionHandler:self.completionHandler] continueWithBlock:^id(AWSTask *task) {
         if (task.error) {
-            NSLog(@"Error: %@", task.error);
+            NSLog(@"AWS Error: %@", task.error);
+            NSLog(@"AWS localizedDescription Error: %@", task.error.localizedDescription);
         }
         if (task.result) {
-            NSLog(@"task.result %@", task.result);
+            NSLog(@"AWS task.result %@", task.result);
         }
         
         return nil;
@@ -107,17 +110,4 @@
     
     [AWSServiceManager defaultServiceManager].defaultServiceConfiguration = configuration;
 }
-
-- (AWSS3TransferManagerUploadRequest *)createAWSS3UploadRequest:(NSURL *)filePath {
-    AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
-    
-    uploadRequest.bucket = self.bucket;
-    uploadRequest.key = self.key;
-    uploadRequest.body = filePath;
-    
-    NSLog(@"Filepath: %@", self.key);
-    
-    return uploadRequest;
-}
-
 @end
