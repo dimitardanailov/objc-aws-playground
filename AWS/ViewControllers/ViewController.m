@@ -25,6 +25,7 @@
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *awsURLlabel;
 
 @property (copy, nonatomic) AWSS3TransferUtilityUploadCompletionHandlerBlock completionHandler;
 @property (copy, nonatomic) AWSS3TransferUtilityProgressBlock progressBlock;
@@ -45,6 +46,10 @@
     
     // Status Label
     self.statusLabel.text = @"Ready";
+    
+    // AWS URL label
+    self.awsURLlabel.text = nil;
+    
     [self setupStatusLabel];
     [self setupProgressBlock];
     [self setupAWSTransferUtility];
@@ -188,6 +193,15 @@
             } else {
                 weakSelf.statusLabel.text = @"Successfully Uploaded";
                 weakSelf.progressView.progress = 1.0;
+                
+                if (task.response != nil) {
+                    NSString *baseURL = [[task.response.URL.absoluteString componentsSeparatedByString:@"?"] objectAtIndex:0];
+                    NSURL *awsURL = [NSURL URLWithString:baseURL];
+                    
+                    NSLog(@"Task: %@", task.response);
+                    
+                    weakSelf.awsURLlabel.text = awsURL.absoluteString;
+                }
             }
         });
     };

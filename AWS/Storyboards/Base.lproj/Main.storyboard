@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="71e-0E-Wqi">
-                                <rect key="frame" x="153" y="555" width="96" height="30"/>
+                                <rect key="frame" x="153" y="567" width="96" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Pick up image"/>
                                 <connections>
@@ -31,7 +31,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dw7-yA-Yem">
-                                <rect key="frame" x="162" y="593" width="79" height="30"/>
+                                <rect key="frame" x="162" y="598" width="79" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save image"/>
                                 <connections>
@@ -39,7 +39,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARd-eo-UWz">
-                                <rect key="frame" x="154" y="517" width="95" height="30"/>
+                                <rect key="frame" x="154" y="532" width="95" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Show Camera"/>
                                 <connections>
@@ -54,7 +54,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrP-Dp-fBy">
-                                <rect key="frame" x="144" y="624" width="114" height="30"/>
+                                <rect key="frame" x="144" y="629" width="114" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Download Image"/>
                                 <connections>
@@ -72,6 +72,13 @@
                                 <rect key="frame" x="131" y="120" width="150" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="https://awsplaygroundobjc-deployments-mobilehub-818149808.s3.eu-central-1.amazonaws.com/asset.JPG" textAlignment="center" lineBreakMode="clip" numberOfLines="2" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtC-KE-Ya0">
+                                <rect key="frame" x="16" y="497" width="343" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.025953736920000001" green="0.0" blue="0.028193814769999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -79,6 +86,7 @@
                     <connections>
                         <outlet property="ImageView" destination="yQH-NB-Sh8" id="3yM-v8-SGL"/>
                         <outlet property="awsIdentity" destination="1O6-6B-osM" id="Iza-QD-y5b"/>
+                        <outlet property="awsURLlabel" destination="NtC-KE-Ya0" id="wHY-jv-oIU"/>
                         <outlet property="downalodImageButton" destination="xrP-Dp-fBy" id="6Bs-1s-JRQ"/>
                         <outlet property="progressView" destination="Jqb-eh-pLu" id="bJH-Ta-pWm"/>
                         <outlet property="saveImageButton" destination="dw7-yA-Yem" id="P5p-F3-MGk"/>
