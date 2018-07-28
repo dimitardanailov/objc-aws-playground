@@ -6,8 +6,6 @@
 //  Copyright © 2018 Dimitar Danailov. All rights reserved.
 //
 
-#import <AWSS3/AWSS3.h>
-
 #import "AWSS3UploadHelper.h"
 
 /**
@@ -24,17 +22,6 @@
 @implementation AWSS3UploadHelper
 
 static NSString *const FILE_TYPE = @"image/jpeg";
-
-- (instancetype)init
-{
-    self = [super init];
-    
-    if (self) {
-        [self initAWSCognitoConfigs];
-    }
-    
-    return self;
-}
 
 /**
  * Source: https://github.com/awslabs/aws-sdk-ios-samples/blob/master/S3TransferUtility-Sample/Objective-C/S3BackgroundTransferSampleObjC/FirstViewController.m

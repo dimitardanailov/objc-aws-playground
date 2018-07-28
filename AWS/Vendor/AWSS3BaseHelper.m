@@ -25,6 +25,17 @@
 
 static NSString *const IDENTITY_POOL_ID = @"eu-central-1:be93f2d5-fe44-4601-a475-7509344fc452";
 
+- (instancetype)init
+{
+    self = [super init];
+    
+    if (self) {
+        [self initAWSCognitoConfigs];
+    }
+    
+    return self;
+}
+
 - (void)initAWSCognitoConfigs {
     AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc]
                                                           initWithRegionType:AWSRegionEUCentral1

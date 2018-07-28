@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AWSS3/AWSS3.h>
 
 #import "AWSS3BaseHelper.h"
 

@@ -7,10 +7,11 @@
 //
 
 #import <AWSMobileClient.h>
+#import <AWSS3/AWSS3.h>
 
 #import "ViewController.h"
 #import "AWSS3UploadHelper.h"
-#import <AWSS3/AWSS3.h>
+#import "AWSS3DownloadHelper.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *saveImageButton;
@@ -162,10 +163,10 @@ static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149
     };
     
     // AWS completionHandler
-    [self addAWSUploadComplitionHandler:aws.completionHandler];
+    [self addAWSUploadComplitionHandler:aws];
     
-    // Update View Controller UI actions
-    // [self setupAWSUploadProgressInterface];
+    // Update UI if job / task can upload a file on AWS S3
+    [self successfulUploadOfAWSS3ByCompletionHandler:aws.completionHandler withProgressBlock:aws.progressBlock];
     
     NSURL *filePath = [self.pickerDictonary objectForKey:@"UIImagePickerControllerImageURL"];
     NSLog(@"filepath %@", filePath);
@@ -173,11 +174,11 @@ static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149
     [aws uploadAWSFile:filePath];
 }
 
-- (void) addAWSUploadComplitionHandler:(AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler {
+- (void) addAWSUploadComplitionHandler:(AWSS3UploadHelper *)aws {
     // Create instance to View Controller
     __weak ViewController *weakSelf = self;
     
-    completionHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
+    aws.completionHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 weakSelf.statusLabel.text = @"Failed to Upload";
@@ -198,7 +199,7 @@ static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149
     };
 }
 
-- (void) awsUploadUIForCompletionHandler:(AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler withProgressBlock:(AWSS3TransferUtilityProgressBlock)progressBlock {
+- (void) successfulUploadOfAWSS3ByCompletionHandler:(AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler withProgressBlock:(AWSS3TransferUtilityProgressBlock)progressBlock {
     AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility defaultS3TransferUtility];
     [transferUtility enumerateToAssignBlocksForUploadTask:^(AWSS3TransferUtilityUploadTask * _Nonnull uploadTask, AWSS3TransferUtilityProgressBlock  _Nullable __autoreleasing * _Nullable uploadProgressBlockReference, AWSS3TransferUtilityUploadCompletionHandlerBlock  _Nullable __autoreleasing * _Nullable completionHandlerReference) {
         NSLog(@"%lu", (unsigned long)uploadTask.taskIdentifier);
@@ -218,8 +219,7 @@ static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149
     self.imageView.image = nil;
     
     // AWS Configurations
-    /*
-    AWSS3Helper *aws = [[AWSS3Helper alloc] init];
+    AWSS3DownloadHelper *aws = [[AWSS3DownloadHelper alloc] init];
     aws.bucket = BUCKET;
     aws.key = @"asset.JPG";
     
@@ -233,13 +233,48 @@ static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149
         });
     };
     
-    [aws downloadAWSFile]; */
+    // AWS completionHandler
+    [self addAWSDownloadComplitionHandler:aws];
+    
+    // Update UI if job / task can upload a file on AWS S3
+    [self successfulDownloadOfAWSS3ByCompletionHandler:aws.completionHandler withProgressBlock:aws.progressBlock];
+    
+    [aws downloadAWSFile];
 } 
 
-- (void) addAWSDownloadComplitionHandler:(AWSS3TransferUtilityUploadCompletionHandlerBlock *)completionHandler {
+- (void) addAWSDownloadComplitionHandler:(AWSS3DownloadHelper *)aws {
     // Create instance to View Controller
     __weak ViewController *weakSelf = self;
+    
+    aws.completionHandler = ^(AWSS3TransferUtilityDownloadTask *task, NSURL *location, NSData *data, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
+                weakSelf.statusLabel.text = @"Failed to Download";
+            }
+            if (data) {
+                weakSelf.statusLabel.text = @"Successfully Downloaded";
+                weakSelf.imageView.image = [UIImage imageWithData:data];
+                weakSelf.progressView.progress = 1.0;
+            }
+        });
+    };
 }
+
+- (void) successfulDownloadOfAWSS3ByCompletionHandler:(AWSS3TransferUtilityDownloadCompletionHandlerBlock)completionHandler withProgressBlock:(AWSS3TransferUtilityProgressBlock)progressBlock {
+    
+    AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility defaultS3TransferUtility];
+    [transferUtility enumerateToAssignBlocksForUploadTask:nil downloadTask:^(AWSS3TransferUtilityDownloadTask * _Nonnull downloadTask, AWSS3TransferUtilityProgressBlock  _Nullable __autoreleasing * _Nullable downloadProgressBlockReference, AWSS3TransferUtilityDownloadCompletionHandlerBlock  _Nullable __autoreleasing * _Nullable completionHandlerReference) {
+        NSLog(@"%lu", (unsigned long)downloadTask.taskIdentifier);
+        
+        *downloadProgressBlockReference = progressBlock;
+        *completionHandlerReference = completionHandler;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.statusLabel.text = @"Download...";
+        });
+    }];
+}
+
 
 #pragma mark - States of save buttons
 
