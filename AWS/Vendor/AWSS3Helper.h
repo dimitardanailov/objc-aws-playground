@@ -20,6 +20,6 @@
 @property (copy, nonatomic) AWSS3TransferUtilityProgressBlock progressBlock;
 
 - (void)uploadAWSFile:(NSURL *)filePath;
-- (void)downloadAWSFile:(NSString *)bucket;
+- (void)downloadAWSFile;
 
 @end

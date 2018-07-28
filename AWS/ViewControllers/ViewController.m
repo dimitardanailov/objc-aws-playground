@@ -34,25 +34,24 @@
 
 @implementation ViewController
 
+static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149808";
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.saveImageButton.enabled = NO;
     // self.downalodImageButton.enabled = NO;
     
+    // Get credentials Data
     [self loadInfoAboutAWSIdentity];
     
+    [self loadUIDefaultState];
+}
+
+- (void)loadUIDefaultState {
     self.progressView.progress = 0;
-    
-    // Status Label
     self.statusLabel.text = @"Ready";
-    
-    // AWS URL label
     self.awsURLlabel.text = nil;
-    
-    [self setupStatusLabel];
-    [self setupProgressBlock];
-    [self setupAWSTransferUtility];
 }
 
 - (void)loadInfoAboutAWSIdentity {
@@ -82,6 +81,8 @@
 }
 
 - (void)openCamera {
+    [self loadUIDefaultState];
+    
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
     imagePicker.delegate = self;
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -112,6 +113,8 @@
  * Tutorial: https://www.appcoda.com/ios-programming-camera-iphone-app/
  */
 - (IBAction)pickImage:(id)sender {
+    [self loadUIDefaultState];
+    
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
@@ -139,23 +142,30 @@
 #pragma mark - Save image to AWS
 
 - (IBAction)saveImageToAWS:(id)sender {
-    [self saveButtonWaitingState];
-    [self uploadImageToAWS];
-}
-
-- (void)uploadImageToAWS {
     NSURL *imagePath = [self.pickerDictonary objectForKey:@"UIImagePickerControllerReferenceURL"];
     NSString *imageName = [imagePath lastPathComponent];
     NSLog(@"image name %@",imagePath);
     
-    // NSLog(@"Filename %@", [self.pickerDictonary objectForKey:@"UIImagePickerControllerImageURL"]);
-    
+    // AWS Configurations
     AWSS3Helper *aws = [[AWSS3Helper alloc] init];
-    aws.bucket = @"awsplaygroundobjc-deployments-mobilehub-818149808";
+    aws.bucket = BUCKET;
     aws.key = imageName;
     
-    aws.progressBlock = self.progressBlock;
-    aws.completionHandler = self.completionHandler;
+    // Reference to View Controller
+    __weak ViewController *weakSelf = self;
+    
+    // AWS Progress block
+    aws.progressBlock = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.progressView.progress = progress.fractionCompleted;
+        });
+    };
+    
+    // AWS completionHandler
+    [self addAWSUploadComplitionHandler:aws.completionHandler];
+    
+    // Update View Controller UI actions
+    // [self setupAWSUploadProgressInterface];
     
     NSURL *filePath = [self.pickerDictonary objectForKey:@"UIImagePickerControllerImageURL"];
     NSLog(@"filepath %@", filePath);
@@ -166,9 +176,12 @@
 # pragma mark - Download image to AWS
 
 - (IBAction)downloadImageToAWS:(id)sender {
+    // AWS Configurations
     AWSS3Helper *aws = [[AWSS3Helper alloc] init];
+    aws.bucket = BUCKET;
+    aws.key = @"asset.JPG";
     
-    [aws downloadAWSFile: nil];
+    [aws downloadAWSFile];
 }
 
 #pragma mark - States of save buttons
@@ -184,9 +197,11 @@
 }
 
 #pragma mark - Status label and progressBar
-- (void) setupStatusLabel {
+- (void) addAWSUploadComplitionHandler:(AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler {
+    // Create instance to View Controller
     __weak ViewController *weakSelf = self;
-    self.completionHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
+    
+    completionHandler = ^(AWSS3TransferUtilityUploadTask *task, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 weakSelf.statusLabel.text = @"Failed to Upload";
@@ -198,7 +213,7 @@
                     NSString *baseURL = [[task.response.URL.absoluteString componentsSeparatedByString:@"?"] objectAtIndex:0];
                     NSURL *awsURL = [NSURL URLWithString:baseURL];
                     
-                    NSLog(@"Task: %@", task.response);
+                    NSLog(@"Task: %@", awsURL);
                     
                     weakSelf.awsURLlabel.text = awsURL.absoluteString;
                 }
@@ -207,24 +222,13 @@
     };
 }
 
-- (void) setupProgressBlock {
-    __weak ViewController *weakSelf = self;
-    self.progressBlock = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.progressView.progress = progress.fractionCompleted;
-        });
-    };
-}
-
-- (void) setupAWSTransferUtility {
-    __weak ViewController *weakSelf = self;
-    
+- (void) awsUploadUIForCompletionHandler:(AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler withProgressBlock:(AWSS3TransferUtilityProgressBlock)progressBlock {
     AWSS3TransferUtility *transferUtility = [AWSS3TransferUtility defaultS3TransferUtility];
     [transferUtility enumerateToAssignBlocksForUploadTask:^(AWSS3TransferUtilityUploadTask * _Nonnull uploadTask, AWSS3TransferUtilityProgressBlock  _Nullable __autoreleasing * _Nullable uploadProgressBlockReference, AWSS3TransferUtilityUploadCompletionHandlerBlock  _Nullable __autoreleasing * _Nullable completionHandlerReference) {
         NSLog(@"%lu", (unsigned long)uploadTask.taskIdentifier);
         
-        *uploadProgressBlockReference = weakSelf.progressBlock;
-        *completionHandlerReference = weakSelf.completionHandler;
+        *uploadProgressBlockReference = progressBlock;
+        *completionHandlerReference = completionHandler;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.statusLabel.text = @"Uploading...";

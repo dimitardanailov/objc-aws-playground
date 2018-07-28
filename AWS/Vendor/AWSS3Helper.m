@@ -32,6 +32,8 @@
  */
 @implementation AWSS3Helper
 
+static NSString *const FILE_TYPE = @"image/jpeg";
+
 - (instancetype)init
 {
     if (self) {
@@ -44,7 +46,7 @@
 # pragma mark - AWS Upload
 
 /**
- * Source: https://github.com/awslabs/aws-sdk-ios-samples/blob/master/S3TransferManager-Sample/Objective-C/S3TransferManagerSample/UploadViewController.m
+ * Source: https://github.com/awslabs/aws-sdk-ios-samples/blob/master/S3TransferUtility-Sample/Objective-C/S3BackgroundTransferSampleObjC/FirstViewController.m
  */
 - (void)uploadAWSFile:(NSURL *)filePath   {
     AWSS3TransferUtilityUploadExpression *expression = [AWSS3TransferUtilityUploadExpression new];
@@ -56,7 +58,7 @@
     [[transferUtility uploadFile:filePath
                           bucket:self.bucket
                              key:self.key
-                     contentType:@"image/jpeg"
+                     contentType:FILE_TYPE
                       expression:expression
                completionHandler:self.completionHandler] continueWithBlock:^id(AWSTask *task) {
         if (task.error) {
@@ -73,32 +75,24 @@
 
 # pragma mark - AWS Download
 
-- (void)downloadAWSFile:(NSString *)bucket {
-    AWSS3GetPreSignedURLRequest *getPreSignedURLRequest = [AWSS3GetPreSignedURLRequest new];
-    getPreSignedURLRequest.bucket = @"awsplaygroundobjc-deployments-mobilehub-818149808";
-    getPreSignedURLRequest.key = @"asset.JPG";
-    getPreSignedURLRequest.HTTPMethod = AWSHTTPMethodGET;
-    getPreSignedURLRequest.expires = [NSDate dateWithTimeIntervalSinceNow:3600];
+/**
+ * Source: 
+ */
+- (void)downloadAWSFile {
+    // Create a temp location to store file
+    NSString *downloadingFilePath =
+        [[NSTemporaryDirectory() stringByAppendingPathComponent:@"download"] stringByAppendingPathComponent:self.key];
     
-    [[[AWSS3PreSignedURLBuilder defaultS3PreSignedURLBuilder] getPreSignedURL:getPreSignedURLRequest]
-     continueWithBlock:^id(AWSTask *task) {
-         
-         if (task.error) {
-             NSLog(@"Error: %@",task.error);
-         } else {
-             
-             NSURL *presignedURL = task.result;
-             NSLog(@"download presignedURL is: \n%@", presignedURL);
-             
-             NSURLRequest *request = [NSURLRequest requestWithURL:presignedURL];
-             // self.downloadTask = [self.session downloadTaskWithRequest:request];
-             //downloadTask is an instance of NSURLSessionDownloadTask.
-             //session is an instance of NSURLSession.
-             // [self.downloadTask resume];
-             
-         }
-         return nil;
-     }];
+    NSURL *downloadingFileURL = [NSURL fileURLWithPath:downloadingFilePath];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:downloadingFilePath]) {
+        // return downloadingFileURL;
+    } else {
+        AWSS3TransferManagerDownloadRequest *downloadRequest = [AWSS3TransferManagerDownloadRequest new];
+        // downloadRequest.bucket = S3BucketName;
+        // downloadRequest.key = s3Object.key;
+        // downloadRequest.downloadingFileURL = downloadingFileURL;
+    }
 }
 
 #pragma mark - Private
