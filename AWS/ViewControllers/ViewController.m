@@ -9,7 +9,7 @@
 #import <AWSMobileClient.h>
 
 #import "ViewController.h"
-#import "AWSS3Helper.h"
+#import "AWSS3UploadHelper.h"
 #import <AWSS3/AWSS3.h>
 
 @interface ViewController ()
@@ -147,7 +147,7 @@ static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149
     NSLog(@"image name %@",imagePath);
     
     // AWS Configurations
-    AWSS3Helper *aws = [[AWSS3Helper alloc] init];
+    AWSS3UploadHelper *aws = [[AWSS3UploadHelper alloc] init];
     aws.bucket = BUCKET;
     aws.key = imageName;
     
@@ -173,30 +173,6 @@ static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149
     [aws uploadAWSFile:filePath];
 }
 
-# pragma mark - Download image to AWS
-
-- (IBAction)downloadImageToAWS:(id)sender {
-    // AWS Configurations
-    AWSS3Helper *aws = [[AWSS3Helper alloc] init];
-    aws.bucket = BUCKET;
-    aws.key = @"asset.JPG";
-    
-    [aws downloadAWSFile];
-}
-
-#pragma mark - States of save buttons
-
-- (void)saveButtonWaitingState {
-    self.saveImageButton.enabled = NO;
-    [self.saveImageButton setTitle:@"Waiting ..." forState:UIControlStateDisabled];
-}
-
-- (void)saveButtonNormalState {
-    self.saveImageButton.enabled = YES;
-    [self.saveImageButton setTitle:@"Save image" forState:UIControlStateNormal];
-}
-
-#pragma mark - Status label and progressBar
 - (void) addAWSUploadComplitionHandler:(AWSS3TransferUtilityUploadCompletionHandlerBlock)completionHandler {
     // Create instance to View Controller
     __weak ViewController *weakSelf = self;
@@ -234,6 +210,47 @@ static NSString *const BUCKET = @"awsplaygroundobjc-deployments-mobilehub-818149
             self.statusLabel.text = @"Uploading...";
         });
     } downloadTask:nil];
+}
+
+# pragma mark - Download image to AWS
+
+- (IBAction)downloadImageToAWS:(id)sender {
+    self.imageView.image = nil;
+    
+    // AWS Configurations
+    /*
+    AWSS3Helper *aws = [[AWSS3Helper alloc] init];
+    aws.bucket = BUCKET;
+    aws.key = @"asset.JPG";
+    
+    // Reference to View Controller
+    __weak ViewController *weakSelf = self;
+    
+    // AWS progress block
+    aws.progressBlock = ^(AWSS3TransferUtilityTask *task, NSProgress *progress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.progressView.progress = progress.fractionCompleted;
+        });
+    };
+    
+    [aws downloadAWSFile]; */
+} 
+
+- (void) addAWSDownloadComplitionHandler:(AWSS3TransferUtilityUploadCompletionHandlerBlock *)completionHandler {
+    // Create instance to View Controller
+    __weak ViewController *weakSelf = self;
+}
+
+#pragma mark - States of save buttons
+
+- (void)saveButtonWaitingState {
+    self.saveImageButton.enabled = NO;
+    [self.saveImageButton setTitle:@"Waiting ..." forState:UIControlStateDisabled];
+}
+
+- (void)saveButtonNormalState {
+    self.saveImageButton.enabled = YES;
+    [self.saveImageButton setTitle:@"Save image" forState:UIControlStateNormal];
 }
 
 @end

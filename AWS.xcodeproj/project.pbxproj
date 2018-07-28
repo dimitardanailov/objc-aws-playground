@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A40C41E420FE1AB000A34EF2 /* AWSS3Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = A40C41E320FE1AB000A34EF2 /* AWSS3Helper.m */; };
+		A40C41E420FE1AB000A34EF2 /* AWSS3UploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A40C41E320FE1AB000A34EF2 /* AWSS3UploadHelper.m */; };
 		A44E6BB120FF4C2E000DC608 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = A44E6BB020FF4C2E000DC608 /* awsconfiguration.json */; };
+		A4593033210CB586009DBF4C /* AWSS3BaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A4593032210CB586009DBF4C /* AWSS3BaseHelper.m */; };
 		A4A7EA9420F9B7E900B1B0B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A7EA9320F9B7E900B1B0B4 /* AppDelegate.m */; };
 		A4A7EA9720F9B7E900B1B0B4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A7EA9620F9B7E900B1B0B4 /* ViewController.m */; };
 		A4A7EA9A20F9B7E900B1B0B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4A7EA9820F9B7E900B1B0B4 /* Main.storyboard */; };
@@ -20,9 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A40C41E220FE19D700A34EF2 /* AWSS3Helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSS3Helper.h; sourceTree = "<group>"; };
-		A40C41E320FE1AB000A34EF2 /* AWSS3Helper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWSS3Helper.m; sourceTree = "<group>"; };
+		A40C41E220FE19D700A34EF2 /* AWSS3UploadHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSS3UploadHelper.h; sourceTree = "<group>"; };
+		A40C41E320FE1AB000A34EF2 /* AWSS3UploadHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWSS3UploadHelper.m; sourceTree = "<group>"; };
 		A44E6BB020FF4C2E000DC608 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		A4593032210CB586009DBF4C /* AWSS3BaseHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWSS3BaseHelper.m; sourceTree = "<group>"; };
+		A4593034210CB5AB009DBF4C /* AWSS3BaseHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSS3BaseHelper.h; sourceTree = "<group>"; };
 		A4A7EA8F20F9B7E900B1B0B4 /* AWS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4A7EA9220F9B7E900B1B0B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A4A7EA9320F9B7E900B1B0B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -63,8 +66,10 @@
 		A40C41E120FE197100A34EF2 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				A40C41E220FE19D700A34EF2 /* AWSS3Helper.h */,
-				A40C41E320FE1AB000A34EF2 /* AWSS3Helper.m */,
+				A4593034210CB5AB009DBF4C /* AWSS3BaseHelper.h */,
+				A4593032210CB586009DBF4C /* AWSS3BaseHelper.m */,
+				A40C41E220FE19D700A34EF2 /* AWSS3UploadHelper.h */,
+				A40C41E320FE1AB000A34EF2 /* AWSS3UploadHelper.m */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -231,9 +236,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4593033210CB586009DBF4C /* AWSS3BaseHelper.m in Sources */,
 				A4A7EA9720F9B7E900B1B0B4 /* ViewController.m in Sources */,
 				A4A7EA9420F9B7E900B1B0B4 /* AppDelegate.m in Sources */,
-				A40C41E420FE1AB000A34EF2 /* AWSS3Helper.m in Sources */,
+				A40C41E420FE1AB000A34EF2 /* AWSS3UploadHelper.m in Sources */,
 				A4A7EAA520F9B7EB00B1B0B4 /* main.m in Sources */,
 				A4A7EA9D20F9B7E900B1B0B4 /* AWS.xcdatamodeld in Sources */,
 			);

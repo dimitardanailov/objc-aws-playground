@@ -8,18 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import <AWSCore/AWSCore.h>
-#import <AWSCognito/AWSCognito.h>
-#import <AWSS3/AWSS3.h>
+#import "AWSS3BaseHelper.h"
 
-@interface AWSS3Helper: NSObject
+@interface AWSS3UploadHelper : AWSS3BaseHelper
 
-@property (strong, nonatomic) NSString *bucket;
-@property (strong, nonatomic) NSString *key;
 @property (copy, nonatomic) AWSS3TransferUtilityUploadCompletionHandlerBlock completionHandler;
-@property (copy, nonatomic) AWSS3TransferUtilityProgressBlock progressBlock;
 
 - (void)uploadAWSFile:(NSURL *)filePath;
-- (void)downloadAWSFile;
 
 @end
